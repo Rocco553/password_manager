@@ -159,10 +159,38 @@ class MenuManager:
             self.main_window.open_backup_dialog()
     
     def _database_settings(self):
-        messagebox.showinfo("Database Settings", "Database settings dialog will be implemented soon.")
-    
+        if hasattr(self.main_window, 'pm') and self.main_window.pm.is_unlocked:
+            from gui.database_settings_dialog import DatabaseSettingsDialog
+            
+            dialog = DatabaseSettingsDialog(
+                self.main_window.root, 
+                self.main_window.pm, 
+                self.main_window.settings_manager
+            )
+            
+            if hasattr(self.main_window, 'auto_lock_timer') and self.main_window.auto_lock_timer:
+                self.main_window.auto_lock_timer.register_dialog(dialog.dialog)
+        else:
+            messagebox.showwarning("Warnung", "Bitte zuerst eine Datenbank öffnen!")
+
     def _change_master_key(self):
-        messagebox.showinfo("Change Master Key", "Change master key dialog will be implemented soon.")
+        if hasattr(self.main_window, 'pm') and self.main_window.pm.is_unlocked:
+            from gui.change_password_dialog import ChangePasswordDialog
+            
+            dialog = ChangePasswordDialog(self.main_window.root, self.main_window.pm)
+            
+            if hasattr(self.main_window, 'auto_lock_timer') and self.main_window.auto_lock_timer:
+                self.main_window.auto_lock_timer.register_dialog(dialog.dialog)
+            
+            if dialog.result:
+                messagebox.showinfo("Erfolgreich", 
+                                "Master-Passwort wurde geändert!\n\n"
+                                "Sie werden jetzt abgemeldet und müssen sich mit dem neuen Passwort anmelden.")
+                
+                if hasattr(self.main_window, 'logout'):
+                    self.main_window.logout()
+        else:
+            messagebox.showwarning("Warnung", "Bitte zuerst eine Datenbank öffnen!")
     
     def _lock_database(self):
         if messagebox.askyesno("Abmelden", "Wirklich abmelden?"):
