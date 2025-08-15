@@ -1,0 +1,18 @@
+{
+  "auto_lock_enabled": true,
+  "auto_lock_timeout_minutes": 0.6,
+  "auto_lock_warning_seconds": 15,
+  "clipboard_clear_enabled": true,
+  "clipboard_clear_seconds": 10,
+  "theme": "windows_classic",
+  "remember_last_database": true,
+  "show_splash_screen": false,
+  "start_minimized": false,
+  "show_password_strength": true,
+  "require_password_confirmation": true,
+  "backup_on_save": false,
+  "window_width": 800,
+  "window_height": 600,
+  "show_status_bar": true,
+  "show_toolbar_icons": true
+}
